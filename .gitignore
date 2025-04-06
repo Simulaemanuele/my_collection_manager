@@ -1,0 +1,106 @@
+# === Python ===
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+downloads/
+eggs/
+*.egg-info/
+*.egg
+wheels/
+pip-wheel-metadata/
+*.manifest
+*.spec
+develop-eggs/
+parts/
+sdist/
+var/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+venv/
+env/
+.venv/
+.env/
+ENV/
+VENV/
+# Aggiungi qui altri nomi se usi nomi diversi per gli ambienti virtuali
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# === IDE / Editor ===
+# VS Code
+.vscode/
+# PyCharm
+.idea/
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+# Atom
+.atom/
+# Emacs
+*~
+#*#
+# Vim
+*.swp
+*.swo
+
+# === Sistema Operativo ===
+# Mac OS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# === Altro ===
+# Log files
+*.log
+
+# File di variabili d'ambiente (NON committare MAI secrets!)
+.env
+*.env.*
+secrets.yaml # O nomi simili se usi file YAML/INI per secrets
+
+# Jupyter Notebook Checkpoints (se dovessi usarli)
+.ipynb_checkpoints
+
+# === Specifico del Progetto (Esempio) ===
+# Cartella per i file di dati generati dall'utente (se decidi di salvarli qui)
+# Modifica o rimuovi se salvi i dati altrove (es. Documenti dell'utente)
+data_files/
+
+# File temporanei specifici del progetto (se ne hai)
+# *.tmp
