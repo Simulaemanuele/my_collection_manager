@@ -18,6 +18,79 @@ class ItemTableView(ttk.Frame):
         label = ttk.Label(self, text="View Objects Table (Treeviews)")
         label.pack(padx=20, pady=20)
         
+        # Subframes
+        # Left panel
+        left_panel = ttk.Frame(self, padding="10 10 10 10")
+        left_panel.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        
+        # Right panel
+        right_panel = ttk.Frame(self, padding="10 10 10 10")
+        right_panel.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
+        
+        # Panels configurations
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=3)
+        self.rowconfigure(0, weight=1)
+        
+        # Left panel population
+        # Labels and Fields
+        ttk.Label(left_panel, text="Title:").grid(row=0, column=0, sticky="w", pady=2)
+        
+        # Memorize entries
+        self.title_entry = ttk.Entry(left_panel)
+        self.title_entry.grid(row=0, column=1, sticky="ew", pady=2)
+        
+        ttk.Label(left_panel, text="Author/Director:").grid(row=1, column=0, sticky="w", pady=2)
+        self.author_entry = ttk.Entry(left_panel)
+        self.author_entry.grid(row=1, column=1, sticky="ew", pady=2)
+        
+        ttk.Label(left_panel, text="Year:").grid(row=2, column=0, sticky="w", pady=2)
+        self.year_entry = ttk.Entry(left_panel)
+        self.year_entry.grid(row=2, column=1, sticky="ew", pady=2) 
+        
+        ttk.Label(left_panel, text="Type:").grid(row=3, column=0, sticky="w", pady=2)
+        self.type_entry = ttk.Entry(left_panel)
+        self.type_entry.grid(row=3, column=1, sticky="ew", pady=2) 
+        
+        ttk.Label(left_panel, text="Status:").grid(row=4, column=0, sticky="w", pady=2)
+        self.status_entry = ttk.Entry(left_panel)
+        self.status_entry.grid(row=4, column=1, sticky="ew", pady=2)
+        
+        # Configure 1st column in left panel
+        left_panel.columnconfigure(1, weight=1)
+        
+        # Add button ( left_panel )
+        # Calling self method inner class
+        self.add_button = ttk.Button(left_panel, text="Add", command=self._on_add_item_click)
+        self.add_button.grid(row=5, column=0, columnspan=2, pady=15)
+        
+        # Right panel population
+        ttk.Label(right_panel, text="Collection:").grid(row=0, column=0, sticky="w")
+        
+        # Using Treeview
+        columns = ("title", "author", "year", "type", "status")
+        self.item_treeview =  ttk.Treeview(right_panel, columns=columns, show="headings")
+        
+        # Define headings
+        self.item_treeview.heading("title", text="Title")
+        self.item_treeview.heading("author", text="Author/Director")
+        self.item_treeview.heading("year", text="Year")
+        self.item_treeview.heading("type", text="Type")
+        self.item_treeview.heading("status", text="Status")
+        
+        # Set columns width (optional)
+        self.item_treeview.column("title", width=220)
+        self.item_treeview.column("author", width=150)
+        self.item_treeview.column("year", width=60, anchor=tk.CENTER)
+        self.item_treeview.column("type", width=60, anchor=tk.CENTER)
+        self.item_treeview.column("status", width=100)
+        
+        
+        
+        
+        
+         
+        
 class ItemDetailView(ttk.Frame):
     """Frame which will shows a single object details"""
     def __init__(self, parent, *args, **kwargs):
@@ -63,53 +136,6 @@ class MainWindow:
         # At the beginning showing only cateogry view
         self.current_view = None
         self.show_category_view()
-        
-        # # Main frame
-        # self.input_frame = tk.Frame(self.root, padx=10, pady=10)
-        # self.input_frame.grid(row=0, column=0, sticky=tk.NSEW)
-        
-        # # Input button frame
-        # self.button_frame = tk.Frame(self.root, pady=10)
-        # self.button_frame.grid(row=1, column=0, sticky=tk.EW)
-        
-        # # Right list Frame
-        # self.list_frame = tk.Frame(self.root, padx=10, pady=10)
-        # self.list_frame.grid(row=0, column=1, rowspan=2, sticky=tk.NSEW)
-        
-        # # Main grid expansion columns config
-        # self.root.columnconfigure(0, weight=1)
-        # self.root.columnconfigure(1, weight=3)
-        # self.root.rowconfigure(0, weight=1)
-        # self.root.rowconfigure(1, weight=0)
-        
-        # # Input Frame popolating
-        # tk.Label(self.input_frame, text="Title:").grid(row=0, column=0, sticky=tk.W, pady=2)
-        # self.title_entry = tk.Entry(self.input_frame)
-        # self.title_entry.grid(row=0, column=1, sticky=tk.EW, pady=2)
-        
-        # tk.Label(self.input_frame, text="Author/Director:").grid(row=1, column=0, sticky=tk.W, pady=2)
-        # self.author_entry = tk.Entry(self.input_frame)
-        # self.author_entry.grid(row=1, column=1, sticky=tk.EW, pady=2)
-        
-        # tk.Label(self.input_frame, text="Year:").grid(row=2, column=0, sticky=tk.W, pady=2)
-        # self.year_entry = tk.Entry(self.input_frame)
-        # self.year_entry.grid(row=2, column=1, sticky=tk.EW, pady=2)
-        
-        # tk.Label(self.input_frame, text="Type").grid(row=3, column=0, sticky=tk.W, pady=2)
-        # self.type_entry = tk.Entry(self.input_frame)
-        # self.type_entry.grid(row=3, column=1, sticky=tk.EW, pady=2)
-        
-        # # Config the 1st input Frame column to expand
-        # self.input_frame.columnconfigure(1, weight=1)
-        
-        # # Button Frame popolating
-        # self.add_button = tk.Button(self.button_frame, text="Add", command=self._on_add_click)
-        # self.add_button.pack(pady=5)
-        
-        # # List Frame popolating
-        # tk.Label(self.list_frame, text="Collection:").pack(anchor=tk.W)
-        # self.collection_listbox = tk.Listbox(self.list_frame)
-        # self.collection_listbox.pack(fill=tk.BOTH, expand=True)
         
     # def _on_add_click(self):
     #     title = self.title_entry.get()
