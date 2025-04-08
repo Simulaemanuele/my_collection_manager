@@ -15,9 +15,6 @@ class ItemTableView(ttk.Frame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         
-        label = ttk.Label(self, text="View Objects Table (Treeviews)")
-        label.pack(padx=20, pady=20)
-        
         # Subframes
         # Left panel
         left_panel = ttk.Frame(self, padding="10 10 10 10")
@@ -85,11 +82,53 @@ class ItemTableView(ttk.Frame):
         self.item_treeview.column("type", width=60, anchor=tk.CENTER)
         self.item_treeview.column("status", width=100)
         
+        # Scrollbar
+        scrollbar = ttk.Scrollbar(right_panel, orient=tk.VERTICAL, command=self.item_treeview.yview)
+        self.item_treeview.configure(yscroll=scrollbar.set)
         
+        # Positioning Treeview and Scrollbar into right_panel grid
+        self.item_treeview.grid(row=1, column=0, sticky="nsew")
+        scrollbar.grid(row=1, column=1, sticky="ns")
         
+        # Config right_panel rows and columns to expand Treeview
+        right_panel.rowconfigure(1, weight=1)
+        right_panel.columnconfigure(0, weight=1)
         
+    """Method which will handle click on Add button"""
+    def _on_add_item_click(self):
+        # Read entry values of the class itself
+        title = self.title_entry.get()
+        author = self.author_entry.get()
+        year = self.year_entry.get()
+        item_type = self.type_entry.get()
+        status = self.status_entry.get()
         
-         
+        # [DEBUG] message
+        print("[--- DEBUG MESSAGE ---]")
+        print(" Add button clicked!")
+        print(f"   Title: {title}")
+        print(f"   Author/Director: {author}")
+        print(f"   Year: {year}")
+        print(f"   Item type: {item_type}")
+        print(f"   Status: {status}")
+        print(f"[{"-"*21}]")
+        
+        # TODO: Item save logic
+        
+        # Add item to the Treeview
+        if title:
+            values_to_insert = (title, author, year, item_type, status)
+            self.item_treeview.insert('', tk.END, values=values_to_insert)
+            
+            # Clean input fields
+            self.title_entry.delete(0, tk.END)
+            self.author_entry.delete(0, tk.END)
+            self.year_entry.delete(0, tk.END)
+            self.type_entry.delete(0, tk.END)
+            self.status_entry.delete(0, tk.END)
+            
+        else:
+            print("Title is mandatory!")
         
 class ItemDetailView(ttk.Frame):
     """Frame which will shows a single object details"""
@@ -137,25 +176,11 @@ class MainWindow:
         self.current_view = None
         self.show_category_view()
         
-    # def _on_add_click(self):
-    #     title = self.title_entry.get()
-    #     author = self.author_entry.get()
-    #     year = self.year_entry.get()
-    #     type = self.type_entry.get()
-    #     print(f"Add button clicked!")
-    #     print(f" Title: {title}")
-    #     print(f" Author: {author}")
-    #     print(f" Year: {year}")
-    #     print(f" Type: {type}")
+        # TEST BUTTON
+        test_button = ttk.Button(self.navbar_frame, text="Go to Item table (Test)", command=self.show_item_table_view)
+        test_button.pack(side=tk.LEFT, padx=10)
         
-    #     if title:
-    #         display_text = f"{title} - {author} - {year} - {type}"
-    #         self.collection_listbox.insert(tk.END, display_text)
-    #         self.title_entry.delete(0, tk.END)
-    #         self.author_entry.delete(0, tk.END)
-    #         self.year_entry.delete(0, tk.END)
-    #         self.type_entry.delete(0, tk.END)
-    
+        
     """Change View Methods"""
     
     def _switch_view(self, view_to_show):
