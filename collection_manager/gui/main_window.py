@@ -1,14 +1,32 @@
 import tkinter as tk
 from tkinter import ttk
-
+from .widgets import CategoryCard
 
 class CategoryView(ttk.Frame):
     """Frame which will shows the category view (Cards)"""
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         
-        label = ttk.Label(self, text="View Categories (Cards)")
-        label.pack(padx=20, pady=20)
+        # --- Static instance of a Card ---
+        placeholder_image_path = "assets/images/placeholder-img.png" 
+        
+        # Define placeholder callbacks
+        def placeholder_delete(name):
+            print(f"Delete callback called for: {name}")
+            
+        def placeholder_click(name):
+            print(f"Click callback called for: {name}")
+            
+        # Create the Card
+        test_card = CategoryCard(
+            parent=self,
+            category_name="Test Category",
+            image_path=placeholder_image_path,
+            delete_callback=placeholder_delete,
+            card_click_callback=placeholder_click
+        )
+        
+        test_card.pack(padx=10, pady=10)
         
 class ItemTableView(ttk.Frame):
     """Frame which will shows the table/list of a category ocjects"""

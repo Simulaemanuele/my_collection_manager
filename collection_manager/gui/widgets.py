@@ -77,10 +77,10 @@ class CategoryCard(ttk.Frame):
             self.delete_callback(self.cateogry_name)
             
     # Method to handle click on the entire card (need to implement)
-    # def _on_card_click(self, event):
-    #     print(f"Clicked on card: {self.cateogry_name}")
-    #     if self.card_click_callback:
-    #         self.card_click_callback(self.cateogry_name)
+    def _on_card_click(self, event):
+        print(f"Clicked on card: {self.cateogry_name}")
+        if self.card_click_callback:
+            self.card_click_callback(self.cateogry_name)
     
     # Method to bind events, need to call in (__init__)
     def _bind_events(self):
