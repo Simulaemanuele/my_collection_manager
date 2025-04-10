@@ -7,27 +7,75 @@ class CategoryView(ttk.Frame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         
-        # --- Static instance of a Card ---
-        placeholder_image_path = "assets/images/placeholder-img.png" 
+        # # --- Static instance of a Card ---
+        # placeholder_image_path = "assets/images/placeholder-img.png" 
         
-        # Define placeholder callbacks
-        def placeholder_delete(name):
-            print(f"Delete callback called for: {name}")
+        # # Define placeholder callbacks
+        # def placeholder_delete(name):
+        #     print(f"Delete callback called for: {name}")
             
-        def placeholder_click(name):
-            print(f"Click callback called for: {name}")
+        # def placeholder_click(name):
+        #     print(f"Click callback called for: {name}")
             
-        # Create the Card
-        test_card = CategoryCard(
+        # # Create the Card
+        # test_card = CategoryCard(
+        #     parent=self,
+        #     category_name="Test Category",
+        #     image_path=placeholder_image_path,
+        #     delete_callback=placeholder_delete,
+        #     card_click_callback=placeholder_click
+        # )
+        
+        # test_card.pack(padx=10, pady=10)
+        
+        categories_data = [
+            {"name": "Books", "image": "assets/images/placeholder-img-1.png"},
+            {"name": "Movies", "image": "assets/images/placeholder-img-2.png"},
+            {"name": "Videogames", "image": "assets/images/placeholder-img-3.png"},
+            {"name": "Music", "image": "assets/images/placeholder-img-4.png"},
+            {"name": "Comics/Manga", "image": "assets/images/placeholder-img-5.png"},
+            {"name": "Other", "image": "assets/images/placeholder-img-6.png"},
+        ]
+        
+        # --- Configure internal Grid of CategoryView ---
+        cards_per_row = 3
+        for i in range(cards_per_row):
+            # Config columns with same weight but not the rows which will be adaptive
+            self.columnconfigure(i, weight=1)
+            
+        # --- Create and positioning Cards loop ---
+        row_num = 0
+        col_num = 0
+        for category_data in categories_data:
+            # Define callback placeholder
+            def placeholder_delete(name=category_data["name"]):
+                print(f"Delete callback called for: {name}")
+            def placeholder_click(name=category_data["name"]):
+                print(f"Click callback called for: {name}")
+                
+            card = CategoryCard(
             parent=self,
-            category_name="Test Category",
-            image_path=placeholder_image_path,
+            category_name=category_data["name"],
+            image_path=category_data["image"],
             delete_callback=placeholder_delete,
             card_click_callback=placeholder_click
-        )
-        
-        test_card.pack(padx=10, pady=10)
-        
+            )
+            
+            print(f"Posizionando card '{category_data['name']}' in riga={row_num}, colonna={col_num}")
+            
+            # Grid positioning the card
+            card.grid(row=row_num, column=col_num, padx=10, pady=10, sticky="nsew")
+            
+            # Update Row and Column for the next card
+            col_num += 1
+            if col_num >= cards_per_row:
+                col_num = 0
+                row_num += 1
+            
+        # Placeholder for the add category button
+        # add_new_card = ttk.Button(self, text="+", command=self._on_add_category)
+        # add_new_card.grid(row=row_num, column=col_num, padx=10, pady=10, sticky="nsew")
+            
 class ItemTableView(ttk.Frame):
     """Frame which will shows the table/list of a category ocjects"""
     def __init__(self, parent, *args, **kwargs):
