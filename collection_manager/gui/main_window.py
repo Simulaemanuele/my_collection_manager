@@ -4,9 +4,9 @@ from .widgets import CategoryCard
 
 class CategoryView(ttk.Frame):
     """Frame which will shows the category view (Cards)"""
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent, controller, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
-        
+        self.controller = controller
         # # --- Static instance of a Card ---
         # placeholder_image_path = "assets/images/placeholder-img.png" 
         
@@ -50,22 +50,19 @@ class CategoryView(ttk.Frame):
             # Define callback placeholder
             def placeholder_delete(name=category_data["name"]):
                 print(f"Delete callback called for: {name}")
-            def placeholder_click(name=category_data["name"]):
-                print(f"Click callback called for: {name}")
                 
             card = CategoryCard(
             parent=self,
             category_name=category_data["name"],
             image_path=category_data["image"],
             delete_callback=placeholder_delete,
-            card_click_callback=placeholder_click
+            card_click_callback=self._on_card_clicked
             )
-            
-            print(f"Posizionando card '{category_data['name']}' in riga={row_num}, colonna={col_num}")
-            
+                        
             # Grid positioning the card
             card.grid(row=row_num, column=col_num, padx=10, pady=10, sticky="nsew")
             
+            self.rowconfigure(row_num, weight=1)
             # Update Row and Column for the next card
             col_num += 1
             if col_num >= cards_per_row:
@@ -75,6 +72,13 @@ class CategoryView(ttk.Frame):
         # Placeholder for the add category button
         # add_new_card = ttk.Button(self, text="+", command=self._on_add_category)
         # add_new_card.grid(row=row_num, column=col_num, padx=10, pady=10, sticky="nsew")
+        
+    def _on_card_clicked(self, category_name):
+        """Called from CategoryCard when a Card is clicked"""
+        print(f"Card '{category_name}' clicked on CategoryView. Calling the controller...")
+        
+        # Using controller in MainWindow to change view
+        self.controller.show_item_table_view(category_name)
             
 class ItemTableView(ttk.Frame):
     """Frame which will shows the table/list of a category ocjects"""
@@ -232,7 +236,7 @@ class MainWindow:
         """Creation of Views Istances"""
         
         # Creating views instances passing main_content_frame
-        self.category_view = CategoryView(self.main_content_frame)
+        self.category_view = CategoryView(self.main_content_frame, controller=self)
         self.item_table_view = ItemTableView(self.main_content_frame)
         self.item_detail_view = ItemDetailView(self.main_content_frame)
         
