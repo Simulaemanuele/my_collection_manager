@@ -164,6 +164,10 @@ class ItemTableView(ttk.Frame):
         right_panel.rowconfigure(1, weight=1)
         right_panel.columnconfigure(0, weight=1)
         
+        # Set table title cateogry
+        self.category_title_label = ttk.Label(right_panel, text="Seleziona una categoria", font=("Arial", 14, "bold"))
+        self.category_title_label.grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 10))
+        
     """Method which will handle click on Add button"""
     def _on_add_item_click(self):
         # Read entry values of the class itself
@@ -199,7 +203,61 @@ class ItemTableView(ttk.Frame):
             
         else:
             print("Title is mandatory!")
+            
+    def load_category_data(self, category_name):
+        """Update tthe view to show data in the specified category"""
         
+        # Update title 
+        self.category_title_label.config(text=f"Category: {category_name or "N/A"}")
+        
+        # Clean Tradeview
+        # get_children() returns all first level ID's rows
+        for item_id in self.item_treeview.get_children():
+            self.item_treeview.delete(item_id)
+            
+        # Emulate datas upload for selected category
+        sample_items = []
+        if category_name == "Books":
+            sample_items = [
+                {'title': 'The Lord of the Rings', 'author': 'J.R.R. Tolkien', 'year': '1954'},
+                {'title': 'A Song of Ice and Fire', 'author': 'G.R.R. Martin', 'year': '1996'},
+                {'title': 'Foundation', 'author': 'Isaac Asimov', 'year': '1951'}
+            ]
+            
+        elif category_name == "Movies":
+            sample_items = [
+                {'title': 'Blade Runner', 'author': 'Ridley Scott', 'year': '1982'},
+                {'title': 'Inception', 'author': 'Christopher Nolan', 'year': '2010'},
+            ]
+        
+        elif category_name == "Videogames":
+            sample_items = [
+                {'title': 'The Witcher 3', 'author': 'CD Projekt Red', 'year': '2015'},
+                {'title': 'Elden Ring', 'author': 'FromSoftware', 'year': '2022'},
+                {'title': 'Baldur\'s Gate 3', 'author': 'Larian Studios', 'year': '2023'}
+            ]
+        elif category_name == "Music":
+            sample_items = [
+                {'title': 'The horse and the infant', 'author': 'Jorge Rivera-Herrans', 'year': '2024'},
+                {'title': 'Odysseus', 'author': 'Jorge Rivera-Herrans', 'year': '2024'}
+            ]
+        elif category_name == "Comics/Manga":
+            sample_items = [
+                {'title': 'One Piece', 'author': 'Eichiro Oda', 'year': '1997'},
+                {'title': 'Naruto', 'author': 'Masashi Kishimoto', 'year': '1999'}
+            ]
+        elif category_name == "Other":
+            sample_items = [
+                {'title': 'Carbonara', 'author': 'Me', 'year': 'n.d.'}
+            ]
+        
+        # Populating Treeview table
+        for item in sample_items:
+            values_to_insert = (item['title'], item['author'], item['year'])
+            self.item_treeview.insert('', tk.END, values=values_to_insert)
+            
+        print(f"Loaded {len(sample_items)} items for {category_name} category")
+            
 class ItemDetailView(ttk.Frame):
     """Frame which will shows a single object details"""
     def __init__(self, parent, *args, **kwargs):
@@ -273,7 +331,7 @@ class MainWindow:
         print(f"Showing Objects Table View (Category: {category})")
         
         # In the future will pass category to load right datas
-        # self.item_table_view.load_category(cateogry)
+        self.item_table_view.load_category_data(category)
         self._switch_view(self.item_table_view)
         
     def show_item_detail_view(self, item=None):
